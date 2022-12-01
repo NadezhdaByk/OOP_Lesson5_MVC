@@ -1,6 +1,10 @@
 package personal.model;
 
 public class UserMapper {
+//    JSONObject employeeDetails = new JSONObject();
+//        employeeDetails.put("firstName", "Lokesh");
+//        employeeDetails.put("lastName", "Gupta");
+
     public String map(User user) {
         return String.format("%s,%s,%s,%s", user.getId(), user.getFirstName(), user.getLastName(), user.getPhone());
     }

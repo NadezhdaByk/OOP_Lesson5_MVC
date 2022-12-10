@@ -1,9 +1,7 @@
 package personal.model;
 
 public class TaskMapper {
-//    JSONObject employeeDetails = new JSONObject();
-//        employeeDetails.put("firstName", "Lokesh");
-//        employeeDetails.put("lastName", "Gupta");
+
 
     public String map(Task task) {
         return String.format("%s,%s,%s,%s,%s", task.getId(), task.getName(), task.getAutor(), task.getDateIn(), task.getPriority());

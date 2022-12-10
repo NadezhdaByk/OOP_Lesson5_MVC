@@ -5,18 +5,47 @@ import java.util.Date;
 public class Task {
     private String name;
     private String autor;
-    private Date dateIn;
-    private String phone;
+    private String dateIn;
+    private String id = "";
+    private String priority;
 
-    public User(String firstName, String lastName, String phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
+    public Task(String name, String autor, String dateIn, String priority) {
+        this.name = name;
+        this.autor = autor;
+        this.dateIn = dateIn;
+        this.priority = priority;
     }
 
-    public User(String id, String firstName, String lastName, String phone) {
-        this(firstName, lastName, phone);
+    public Task(String id, String name, String autor, String dateIn, String priority) {
+        this.name = name;
+        this.autor = autor;
+        this.dateIn = dateIn;
         this.id = id;
+        this.priority = priority;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public String getDateIn() {
+        return dateIn;
+    }
+
+    public void setDateIn(String dateIn) {
+        this.dateIn = dateIn;
     }
 
     public String getId() {
@@ -27,32 +56,20 @@ public class Task {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getPriority() {
+        return priority;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     @Override
     public String toString() {
-        return String.format("Идентафикатор: %s\nИмя: %s,\nФамилия: %s,\nТелефон: %s", id, firstName, lastName, phone);
+        return "ID: " + id +
+                ", дело= " + name +
+                ", инициатор-" + autor +
+                ", дата заведения-" + dateIn +
+                ", срочность -" + priority;
     }
 }

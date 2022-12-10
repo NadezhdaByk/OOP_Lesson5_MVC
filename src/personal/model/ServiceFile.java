@@ -3,30 +3,29 @@ package personal.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepositoryFile implements Repository {
-    private UserMapper mapper = new UserMapper();
+public class ServiceFile implements Service {
+    private TaskMapper mapper = new TaskMapper();
     private FileOperation fileOperation;
 
-    public RepositoryFile(FileOperation fileOperation) {
+    public ServiceFile(FileOperation fileOperation) {
         this.fileOperation = fileOperation;
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<Task> getAllTask() {
         List<String> lines = fileOperation.readAllLines();
-        List<User> users = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         for (String line : lines) {
-            users.add(mapper.map(line));
+            tasks.add(mapper.map(line));
         }
-        return users;
+        return tasks;
     }
 
     @Override
-    public String CreateUser(User user) {
-
-        List<User> users = getAllUsers();
+    public String CreateTask(Task task) {
+        List<Task> tasks = getAllTask();
         int max = 0;
-        for (User item : users) {
+        for (Task item : tasks) {
             int id = Integer.parseInt(item.getId());
             if (max < id){
                 max = id;
@@ -34,39 +33,52 @@ public class RepositoryFile implements Repository {
         }
         int newId = max + 1;
         String id = String.format("%d", newId);
-        user.setId(id);
-        saveUser(user, users);
+        task.setId(id);
+        saveTask(task, tasks);
         return id;
     }
 
-    public void updateUser(User user){
-        deleteUser(user.getId());
-        List<User> users = getAllUsers();
-        saveUser(user, users);
-    }
-    private void saveUser(User user, List<User> users) {
-        users.add(user);
-        saveUsers(users);
-    }
-
-    public void deleteUser(String userID){
-        List<User> users = getAllUsers();
-        users.remove(findUser(userID, users));
-        saveUsers(users);
+//    public void updateUser(User user){
+//        deleteUser(user.getId());
+//        List<User> users = getAllUsers();
+//        saveUser(user, users);
+//    }
+    private void saveTask(Task task, List<Task> tasks) {
+        tasks.add(task);
+        saveTasks(tasks);
     }
 
-    private User findUser(String userID, List<User> users) {
-        for (User user : users) {
-            if (user.getId().equals(userID)) {
-                return user;
+    @Override
+    public void deleteTask(String taskID){
+        List<Task> tasks = getAllTask();
+        tasks.remove(findTask(taskID, tasks));
+        saveTasks(tasks);
+    }
+
+    private Task findTask(String taskID, List<Task> tasks) {
+        for (Task task : tasks) {
+            if (task.getId().equals(taskID)) {
+                return task;
             }
         }
-        throw new IllegalStateException("User not found!");
+        throw new IllegalStateException("Task not found!");
+    }
+    @Override
+    public List<Task> getPriorityTask(String priority) {
+        List<Task> tasks = getAllTask();
+        List <Task> taskPrior = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getPriority().equals(priority)) {
+                taskPrior.add(task);
+            }
+            return taskPrior;
+        }
+        throw new IllegalStateException("Tasks of this priority not found!");
     }
 
-    private void saveUsers(List<User> users){
+    private void saveTasks(List<Task> tasks){
         List<String> lines = new ArrayList<>();
-        for (User item: users) {
+        for (Task item: tasks) {
             lines.add(mapper.map(item));
         }
         fileOperation.saveAllLines(lines);

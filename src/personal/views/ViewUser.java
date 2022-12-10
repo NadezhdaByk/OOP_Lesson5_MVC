@@ -1,17 +1,20 @@
 package personal.views;
 
-import personal.controllers.UserController;
+import personal.controllers.TaskController;
 import personal.exception.CommandException;
-import personal.model.User;
+import personal.model.Task;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewUser {
 
-    private UserController userController;
+    private TaskController taskController;
 
-    public ViewUser(UserController userController) {
-        this.userController = userController;
+    public ViewUser(TaskController taskController) {
+        this.taskController = taskController;
     }
 
     public void run(){
@@ -29,33 +32,40 @@ public class ViewUser {
             switch (com) {
                 case CREATE:
                     try {
-                        String firstName = prompt("Имя: ");
-                        String lastName = prompt("Фамилия: ");
-                        String phone = prompt("Номер телефона: ");
-                        userController.saveUser(new User(firstName, lastName, phone));
+                        String name = prompt("Дело: ");
+                        String autor = prompt("Инициатор: ");
+                        String priority = prompt("Приоритет: ");
+                        String dataIn = (new Date()).toString();
+                        taskController.saveTask(new Task(name, autor, dataIn, priority));
                     } catch (IllegalStateException e) {
                         System.out.println(e.getMessage());
                         continue;
                     }
                     break;
                 case READ:
-                    String id = prompt("Идентификатор пользователя: ");
+                    String id = prompt("Идентификатор задачи: ");
                     try {
-                        User user = userController.readUser(id);
-                        System.out.println(user);
+                        Task task = taskController.readTask(id);
+                        System.out.println(task);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                     break;
                 case LIST:
-                    userController.readUsers().forEach(System.out::println);
+                    taskController.readTasks().forEach(System.out::println);
                     break;
-                case UPDATE:
-                    String firstName = prompt("Имя: ");
-                    String lastName = prompt("Фамилия: ");
-                    String phone = prompt("Номер телефона: ");
-                    String userID = prompt("Идентификатор пользователя: ");
-                    userController.editUser(new User(userID, firstName, lastName, phone));
+                case LISTPRIOR:
+                    String priority = prompt("Срочность задачи: ");
+                    taskController.getPriorityTask(priority).forEach(System.out::println);
+                    break;
+                case DELETE:
+                    String idDel = prompt("Идентификатор задачи: ");
+                    try {
+                       taskController.deleteTask(idDel);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
             }
         }
     }

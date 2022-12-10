@@ -1,9 +1,11 @@
 package personal.model;
 
-public class User {
-    private String id = "";
-    private String firstName;
-    private String lastName;
+import java.util.Date;
+
+public class Task {
+    private String name;
+    private String autor;
+    private Date dateIn;
     private String phone;
 
     public User(String firstName, String lastName, String phone) {

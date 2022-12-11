@@ -41,4 +41,8 @@ public class UserController {
         repository.updateUser(user);
     }
 
+    public void deleteUser(String id){
+        repository.deleteUser(id);
+    }
+
 }
